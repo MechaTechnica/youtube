@@ -1,0 +1,43 @@
+﻿<local:MainWindowBase x:Class="PythonHospitalDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PythonHospitalDemo" mc:Ignorable="d"
+        xmlns:conv="clr-namespace:PythonHospitalDemo.Converters"
+        Title="Snake Hospital V1" Height="450" Width="800">
+    <Grid>
+        <Grid.Resources>
+            <conv:BoolToStringConverter x:Key="CYesNo" FalseValue="No" TrueValue="Yes" />
+        </Grid.Resources>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF6E785C" Offset="0.007"/>
+                <GradientStop Color="#FF8BBB37" Offset="0.449"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Kaa Memorial Hospital" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Transparent" Foreground="#FFF1E8E8" FontSize="22"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Recent Admittance" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,0" Foreground="White" FontWeight="Bold" FontSize="15"/>
+            <Button x:Name="OpenFileButton" Content="Open" Width="40" Height="35" HorizontalAlignment="Right" Margin="0,0,15,0" Foreground="#FF53D11A" Background="White"/>
+            <DataGrid x:Name="PatientsDataGrid" RowHeaderWidth="0" GridLinesVisibility="None" AutoGenerateColumns="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Row="1" Margin="10,0,10,10" RowBackground="#FF58AA90" Background="{x:Null}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}" Foreground="White" RowStyle="{DynamicResource DataGridRowStyle1}" RowHeight="35">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PatientName}" MinWidth="150" Header="Patient Name"/>
+                    <DataGridTextColumn Binding="{Binding Age}" Header="Age" MinWidth="50"/>
+                    <DataGridTextColumn Binding="{Binding Insured, Converter={StaticResource CYesNo}}" Header="Insured" MinWidth="50"/>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+    </Grid>
+</local:MainWindowBase>

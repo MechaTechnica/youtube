@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythonHospitalDemo", "PythonHospitalDemo\PythonHospitalDemo.csproj", "{A11D1892-11B7-4866-9F1E-37BFC13DDEDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{01A8350E-8A54-496D-9303-2BF5C8858E34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{83CA8D6F-8B37-413E-BAF5-B79AE394473F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalDemo.Application", "HospitalDemo.Application\HospitalDemo.Application.csproj", "{D7A65614-F702-4BDD-8B15-B35D3BA76656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythonEngine", "PythonEngine\PythonEngine.csproj", "{07E014B8-8A4F-4AB0-8882-AA3E2775F930}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A11D1892-11B7-4866-9F1E-37BFC13DDEDD}.Debug|x64.ActiveCfg = Debug|x64
+		{A11D1892-11B7-4866-9F1E-37BFC13DDEDD}.Debug|x64.Build.0 = Debug|x64
+		{A11D1892-11B7-4866-9F1E-37BFC13DDEDD}.Release|x64.ActiveCfg = Release|x64
+		{A11D1892-11B7-4866-9F1E-37BFC13DDEDD}.Release|x64.Build.0 = Release|x64
+		{D7A65614-F702-4BDD-8B15-B35D3BA76656}.Debug|x64.ActiveCfg = Debug|x64
+		{D7A65614-F702-4BDD-8B15-B35D3BA76656}.Debug|x64.Build.0 = Debug|x64
+		{D7A65614-F702-4BDD-8B15-B35D3BA76656}.Release|x64.ActiveCfg = Release|x64
+		{D7A65614-F702-4BDD-8B15-B35D3BA76656}.Release|x64.Build.0 = Release|x64
+		{07E014B8-8A4F-4AB0-8882-AA3E2775F930}.Debug|x64.ActiveCfg = Debug|x64
+		{07E014B8-8A4F-4AB0-8882-AA3E2775F930}.Debug|x64.Build.0 = Debug|x64
+		{07E014B8-8A4F-4AB0-8882-AA3E2775F930}.Release|x64.ActiveCfg = Release|x64
+		{07E014B8-8A4F-4AB0-8882-AA3E2775F930}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A11D1892-11B7-4866-9F1E-37BFC13DDEDD} = {01A8350E-8A54-496D-9303-2BF5C8858E34}
+		{D7A65614-F702-4BDD-8B15-B35D3BA76656} = {83CA8D6F-8B37-413E-BAF5-B79AE394473F}
+		{07E014B8-8A4F-4AB0-8882-AA3E2775F930} = {83CA8D6F-8B37-413E-BAF5-B79AE394473F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF1E3F16-038E-4BCA-B330-9BD62D019222}
+	EndGlobalSection
+EndGlobal

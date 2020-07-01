@@ -33,7 +33,7 @@ namespace PythonHospitalDemo
             this.WhenActivated(disposables =>
             {
                 this.OneWayBind(ViewModel, vm => vm.Patients, v => v.PatientsDataGrid.ItemsSource).DisposeWith(disposables);
-                this.BindCommand(ViewModel, vm => vm.OpenFileCommand, v => v.OpenFileButton);
+                this.BindCommand(ViewModel, vm => vm.OpenFileCommand, v => v.OpenFileButton).DisposeWith(disposables);
             });
         }
     }

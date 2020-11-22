@@ -1,22 +1,25 @@
 ﻿using Autofac;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PythonNetEngine.Interfaces
 {
     public interface IPythonEngine : IDisposable
     {
-        // executes a Python command
-        string ExecuteCommand(string command);
+        // executes a Python code
+        string ExecuteCommand(string code);
+
+        // executes a file
+        string ExecuteFile(string code, string filename);
 
         // sets an object in Python's scope
         void SetVariable(string name, object value);
 
         // Python's search path
         IList<string> SearchPaths();
+
+        // sets search parths for specified module
+        void SetSearchPath(IList<string> paths, string module);
 
         // Sets search paths
         void SetSearchPath(IList<string> paths);

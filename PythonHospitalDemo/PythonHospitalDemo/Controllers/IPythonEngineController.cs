@@ -8,8 +8,10 @@ namespace PythonHospitalDemo.Controllers
 {
     public interface IPythonEngineController
     {
+        void Initialize(string module);
         void Initialize();
 
-        void RunCommand(string command);
+        string RunCommand(string command);
+        string RunFile(string code, string source);
     }
 }

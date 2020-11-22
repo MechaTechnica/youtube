@@ -1,9 +1,6 @@
 ﻿using Autofac;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PythonNetEngine
 {
@@ -24,7 +21,7 @@ namespace PythonNetEngine
         private Type GetType(string fullName)
         {
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).ToList();
-            return types.Where(s => string.Equals(s.FullName, fullName, StringComparison.Ordinal)).FirstOrDefault();
+            return types.FirstOrDefault(s => string.Equals(s.FullName, fullName, StringComparison.Ordinal));
         }
     }
 }

@@ -63,8 +63,8 @@
     <Compile Include="DiContainer.cs" />
     <Compile Include="Interfaces\IPythonEngine.cs" />
     <Compile Include="Interfaces\IPythonLogger.cs" />
+    <Compile Include="Logger\PythonLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PythonLogger.cs" />
     <Compile Include="PythonNet.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,5 +84,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

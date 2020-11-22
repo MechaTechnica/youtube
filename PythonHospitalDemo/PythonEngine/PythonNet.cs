@@ -5,20 +5,31 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PythonNetEngine
 {
     public class PythonNet : IPythonEngine
     {
-        private Lazy<PyScope> m_scope;
-        private PythonLogger m_logger = new PythonLogger();
+        private readonly IPythonLogger m_pythonLogger;
+        private readonly Lazy<PyScope> m_scope;
 
-        public PythonNet()
+        public PythonNet(IPythonLogger pythonLogger)
         {
-            m_scope = new Lazy<PyScope>(() => Py.CreateScope());
+            m_pythonLogger = pythonLogger;
+            m_scope = new Lazy<PyScope>(Py.CreateScope);
+            InitLogger();
+        }
+
+        private void InitLogger()
+        {
+            SetVariable("Logger", m_pythonLogger);
+            const string loggerSrc = "import sys\n" +
+                                     "from io import StringIO\n" +
+                                     "sys.stdout = Logger\n" +
+                                     "sys.stdout.flush()\n" +
+                                     "sys.stderr = Logger\n" +
+                                     "sys.stderr.flush()";
+            ExecuteCommand(loggerSrc);
         }
 
         public void Dispose()
@@ -28,31 +39,15 @@ namespace PythonNetEngine
 
         public string ExecuteCommand(string command)
         {
-            string result;
-            try
-            {
-                using (Py.GIL())
-                {
-                    var pyCompile = PythonEngine.Compile(command);
-                    m_scope.Value.Execute(pyCompile);
-                    result = m_logger.ReadStream();
-                    m_logger.flush();
-                }
-            }
-            catch(Exception ex)
-            {
-                result = $"Trace: \n{ex.StackTrace} " + "\n" +
-                    $"Message: \n {ex.Message}" + "\n";
-            }
-
-            return result;
+            return ExecuteFile(command, "");
         }
 
         public void Initialize(IContainer appContainer)
         {
             SetVariable("DiContainer", new DiContainer(appContainer));
-            var initScript = File.ReadAllText("./Python/HospitalApi/startup.py");
-            ExecuteCommand(initScript);
+            var startupFile = "./Python/HospitalApi/startup.py";
+            var initScript = File.ReadAllText(startupFile);
+            ExecuteFile(initScript, startupFile);
         }
 
         public IList<string> SearchPaths()
@@ -72,13 +67,18 @@ namespace PythonNetEngine
 
         public void SetSearchPath(IList<string> paths)
         {
+            SetSearchPath(paths, "");
+        }
+
+        public void SetSearchPath(IList<string> paths, string module)
+        {
             var searchPaths = paths.Where(Directory.Exists).Distinct().ToList();
 
             using (Py.GIL())
             {
-                var src = "import sys\n" + 
-                           $"sys.path.extend({searchPaths.ToPython()})";
-                ExecuteCommand(src);
+                var src = "import sys\n" +
+                          $"sys.path.extend({searchPaths.ToPython()})";
+                ExecuteFile(src, module);
             }
         }
 
@@ -90,16 +90,26 @@ namespace PythonNetEngine
             }
         }
 
-        private void SetupLogger()
+        public string ExecuteFile(string code, string filename)
         {
-            SetVariable("Logger", m_logger);
-            const string loggerSrc = "import sys\n" +
-                                     "from io import StringIO\n" +
-                                     "sys.stdout = Logger\n" +
-                                     "sys.stdout.flush()\n" +
-                                     "sys.stderr = Logger\n" +
-                                     "sys.stderr.flush()\n";
-            ExecuteCommand(loggerSrc);
+            string result;
+            try
+            {
+                using (Py.GIL())
+                {
+                    var pyCompile = PythonEngine.Compile(code, filename);
+                    m_scope.Value.Execute(pyCompile);
+                    result = m_pythonLogger.ReadStream();
+                    m_pythonLogger.flush();
+                }
+            }
+            catch (PythonException ex)
+            {
+                result = $"Trace: \n{ex.StackTrace} " + "\n" +
+                             $"Message: \n {ex.Message}" + "\n";
+            }
+
+            return result;
         }
     }
 }

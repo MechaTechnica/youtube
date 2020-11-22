@@ -1,9 +1,5 @@
 ﻿using PythonNetEngine.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PythonHospitalDemo.Controllers
 {
@@ -16,15 +12,27 @@ namespace PythonHospitalDemo.Controllers
             m_pythonEngine = pythonEngine;
             Initialize();
         }
-        public void Initialize()
+
+        public void Initialize(string module)
         {
-            m_pythonEngine.SetSearchPath(new List<string> { "./Python/" });
+            m_pythonEngine.SetSearchPath(new List<string> { "./Python/" }, module);
             m_pythonEngine.Initialize(Module.Container);
         }
 
-        public void RunCommand(string command)
+        public void Initialize()
         {
-            m_pythonEngine.ExecuteCommand(command);
+            Initialize("");
+        }
+
+        public string RunCommand(string command)
+        {
+            return m_pythonEngine.ExecuteCommand(command);
+        }
+
+        public string RunFile(string code, string fileName)
+        {
+            Initialize(fileName);
+            return m_pythonEngine.ExecuteFile(code, fileName);
         }
     }
 }

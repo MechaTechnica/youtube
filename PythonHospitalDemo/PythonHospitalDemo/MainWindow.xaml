@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PythonHospitalDemo" mc:Ignorable="d"
         xmlns:conv="clr-namespace:PythonHospitalDemo.Converters"
-        Title="Snake Hospital V1" Height="450" Width="800">
+        Title="Snake Hospital V1" Height="600" Width="800">
     <Grid>
         <Grid.Resources>
             <conv:BoolToStringConverter x:Key="CYesNo" FalseValue="No" TrueValue="Yes" />
@@ -19,10 +19,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition MaxHeight="150"/>
         </Grid.RowDefinitions>
 
         <Label Content="Kaa Memorial Hospital" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Transparent" Foreground="#FFF1E8E8" FontSize="22"/>
-        <Grid Grid.Row="1">
+        <Grid x:Name="PatientGrid" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.15*"/>
                 <RowDefinition/>
@@ -38,6 +39,13 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-
+        <Grid Grid.RowSpan="2" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height=".25*"/>
+            </Grid.RowDefinitions>
+            <TextBox VerticalScrollBarVisibility="Auto" IsReadOnly="True" x:Name="PythonOutput" TextWrapping="Wrap" Background="Black" Foreground="White"/>
+            <TextBox x:Name="PythonInput" TextWrapping="Wrap" Grid.Row="1" Foreground="White" Background="Black"/>
+        </Grid>
     </Grid>
 </local:MainWindowBase>

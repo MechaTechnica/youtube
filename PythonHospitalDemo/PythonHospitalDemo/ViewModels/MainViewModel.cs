@@ -56,7 +56,8 @@ namespace PythonHospitalDemo.ViewModels
             if (!string.IsNullOrEmpty(file))
             {
                 var src = m_fileService.ReadFile(file);
-                m_pythonEngineController.RunFile(src, file);
+                var engineResult = m_pythonEngineController.RunFile(src, file);
+                PythonConsoleText.Add(engineResult);
             }
         }
     }

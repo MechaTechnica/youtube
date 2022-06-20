@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Python.Runtime;
 using PythonNetEngine.Interfaces;
+using PythonNetEngine.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,6 +20,54 @@ namespace PythonNetEngine
         public PythonNet()
         {
             m_scope = new Lazy<PyScope>(() => Py.CreateScope());
+            SetPythonPaths();
+        }
+
+        private void SetPythonPaths()
+        {
+            var pyInstallDir = Environment.ExpandEnvironmentVariables(Settings.Default.PythonInstallDir);
+            CheckPythonInstalled(pyInstallDir);
+            SetEnvironmentVariable("@PATH", pyInstallDir);
+            SetEnvironmentVariable(@"PYTHONHOME", pyInstallDir);
+            SetEnvironmentVariable(@"PYTHONPATH", Path.Combine(pyInstallDir, @"DLLs/"));
+            SetEnvironmentVariable(@"PYTHONPATH", Path.Combine(pyInstallDir, @"Lib/site-packages"));
+            SetEnvironmentVariable(@"PYTHONPATH", Path.Combine(pyInstallDir, @"Lib/"));
+            SetEnvironmentVariable(@"PYTHONPATH", Path.Combine(pyInstallDir, @"Python/"));
+        }
+
+        private void CheckPythonInstalled(string installDir)
+        {
+            if (!Directory.Exists(installDir))
+            {
+                throw new ArgumentException($@"Python directory: {installDir} does not exist.");
+            }
+
+            var pyDll = Directory.GetFiles(installDir).FirstOrDefault(s => s.Contains(@"python3.dll"));
+            if (pyDll == null)
+            {
+                throw new ArgumentException($@"python3.dll not found in {pyDll}");
+            }
+        }
+
+        private void SetEnvironmentVariable(string variable, string value)
+        {
+            var target = EnvironmentVariableTarget.Process;
+            var currentValue = Environment.GetEnvironmentVariable(variable, target);
+            if (currentValue != null)
+            {
+                var splitValues = currentValue.Split(Path.PathSeparator);
+                if (splitValues.Any(s => !string.IsNullOrEmpty(s) && Path.GetFullPath(s) == Path.GetFullPath(value)))
+                {
+                    return;
+                }
+
+                var combinedVariables = Path.GetFullPath(value) + Path.PathSeparator + currentValue;
+                Environment.SetEnvironmentVariable(variable, combinedVariables, target);
+            }
+            else
+            {
+                Environment.SetEnvironmentVariable(variable, Path.GetFullPath(value), target);
+            }
         }
 
         public void Dispose()

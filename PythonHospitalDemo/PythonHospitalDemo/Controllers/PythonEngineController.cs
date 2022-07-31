@@ -31,7 +31,6 @@ namespace PythonHospitalDemo.Controllers
 
         public string RunFile(string code, string fileName)
         {
-            Initialize(fileName);
             return m_pythonEngine.ExecuteFile(code, fileName);
         }
     }

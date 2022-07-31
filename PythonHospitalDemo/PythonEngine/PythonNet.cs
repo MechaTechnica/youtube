@@ -18,8 +18,8 @@ namespace PythonNetEngine
         {
             m_pythonLogger = pythonLogger;
             m_scope = new Lazy<PyScope>(Py.CreateScope);
-            InitLogger();
             SetPythonPaths();
+            InitLogger();
         }
 
         private void InitLogger()
